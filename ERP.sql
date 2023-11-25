@@ -29,7 +29,7 @@ CREATE TABLE student (
     mname VARCHAR(20),
     lname VARCHAR(20),
     roll_no VARCHAR(20),
-    password VARCHAR(15)
+    passwords VARCHAR(15)
 );
 
 CREATE TABLE course (
@@ -57,11 +57,43 @@ CREATE TABLE timetable (
     FOREIGN KEY (tprn) REFERENCES teacher(tprn),
     FOREIGN KEY (panel_name) REFERENCES panel(panel_name)
 );
-insert into teacher values('10412023','shamla','mantri','test@12345','104');
 insert into course values('104','MMC','10412023');
-update  course set course_name ='MMC' where tprn=10412023;
-
-alter table course drop column tprn;
+insert into teacher values('10412023','shamla','mantri','test@12345','104');
+insert into student values('1032220989','rishuraj','-','singh','PD28','test@12345');
 select * from course;
 select * from teacher;	
-drop database erp;
+DELIMITER //
+CREATE FUNCTION validate_teacher_login(tprn_param VARCHAR(255), password_param VARCHAR(255)) RETURNS INT
+BEGIN
+    DECLARE password_val VARCHAR(255);
+    SELECT passwords INTO password_val
+    FROM teacher
+    WHERE tprn = tprn_param;
+    IF password_val = password_param THEN
+        RETURN 1;
+    ELSE
+        RETURN 0;
+    END IF;
+END //
+DELIMITER ;
+SELECT validate_teacher_login('10412023', 'test@12345') AS result;
+DELIMITER //
+CREATE FUNCTION validate_student_login(sprn_param VARCHAR(255), password_param VARCHAR(255)) RETURNS INT
+BEGIN
+    DECLARE password_val VARCHAR(255);
+    SELECT passwords INTO password_val
+    FROM student
+    WHERE sprn = sprn_param;
+    IF password_val = password_param THEN
+        RETURN 1;
+    ELSE
+        RETURN 0;
+    END IF;
+END//
+DELIMITER ;
+SELECT validate_teacher_login('10412023', 'test@12345') AS teacher_login_result;
+SELECT validate_student_login('1032220989', 'test@12345') AS student_login_result;
+
+DROP FUNCTION IF EXISTS validate_student_login;
+
+
