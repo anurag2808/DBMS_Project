@@ -6,6 +6,20 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>this staff page</h1>
+    <h1 id="name">
+
+    </h1>
+    <script>
+        fetch('/name')
+        .then(response => response.json())
+        .then(name =>{
+            name.forEach(element => {
+                const fname=`<span>welcome! ${element.fname}</span>`;
+                const lname=`<span>${ element.lname}</span>`;
+                document.getElementById('name').insertAdjacentHTML('beforeend',fname);
+                document.getElementById('name').insertAdjacentHTML('beforeend',lname);
+            });
+        })
+    </script>
 </body>
 </html>

@@ -20,4 +20,15 @@ function fetchDataFromDB(callback) {
     callback(null, results);
   });
 }
-module.exports = { fetchDataFromDB };
+const name = (prn) => {
+  return new Promise((resolve, reject) => {
+    pool.query(`SELECT fname,lname FROM teacher where tprn=${prn}`, (err, results) => {
+      if (err) {
+        reject(err); // Reject the promise if there's an error
+      } else {
+        resolve(results); // Resolve the promise with the results array
+      }
+    });
+  });
+};
+module.exports = { fetchDataFromDB,name};
