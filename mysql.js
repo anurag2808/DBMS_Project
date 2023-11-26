@@ -31,4 +31,15 @@ const name = (prn) => {
     });
   });
 };
-module.exports = { fetchDataFromDB,name};
+const staff1 = (prn,day) => {
+  return new Promise((resolve, reject) => {
+    pool.query(`SELECT panel_name FROM timetable where tprn=${prn} and day=${day}` , (err, results) => {
+      if (err) {
+        reject(err); // Reject the promise if there's an error
+      } else {
+        resolve(results); // Resolve the promise with the results array
+      }
+    });
+  });
+};
+module.exports = { fetchDataFromDB,name,staff1};

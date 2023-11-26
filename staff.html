@@ -9,16 +9,49 @@
     <h1 id="name">
 
     </h1>
+    <div class="day">
+        <form id="day">
+            <label for="weekday">Select a weekday:</label>
+            <select name="weekday" id="weekday">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="container">
+        <div class="btn">
+            
+        </div>
+    </div>
     <script>
+        let temp=document.getElementById('day');
+        temp.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            day=document.getElementById('weekday').value;
+            console.log(day);
+        })
         fetch('/name')
         .then(response => response.json())
         .then(name =>{
             name.forEach(element => {
-                const fname=`<span>welcome! ${element.fname}</span>`;
-                const lname=`<span>${ element.lname}</span>`;
-                document.getElementById('name').insertAdjacentHTML('beforeend',fname);
-                document.getElementById('name').insertAdjacentHTML('beforeend',lname);
+                const name=`<span>welcome! ${element.fname} ${element.lname}</span>`;
+                document.getElementById('name').insertAdjacentHTML('beforeend',name);
             });
+        })
+        fetch('timetable')
+        .then(response => response.json)
+        .then(panel =>{
+            panel.forEach(element =>{
+                const pannel=`<button>${element.panel_name}</button>`;
+                document.getElementById('btn').insertAdjacentHTML('beforeend',pannel);
+            })
         })
     </script>
 </body>

@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const mysqlFunctions = require('./mysql');
 let tprn;
+let day="monday";
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,7 +26,6 @@ app.post("/loginstudent", (req, res) => {
 app.post("/loginstaff", (req, res) => {
     tprn = req.body.PRN;
     let pass = req.body.password;
-    let count;
     const handleData = (err, data) => {
         if (err) {
             console.error('Error fetching data:', err);
@@ -58,6 +58,15 @@ app.post("/loginstaff", (req, res) => {
 })
 app.get("/name",(req,res)=>{
     mysqlFunctions.name(tprn)
+    .then((results) => {
+        res.json(results) 
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+})
+app.get("/timetable",(req,res)=>{
+    mysqlFunctions.name(tprn,day)
     .then((results) => {
         res.json(results) 
       })
