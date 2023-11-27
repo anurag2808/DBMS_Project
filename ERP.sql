@@ -39,7 +39,8 @@ CREATE TABLE attendance (
     tprn INT,
     day VARCHAR(20),
     status VARCHAR(10),
-    PRIMARY KEY (sprn, tprn, day),
+    panel_name varchar(10),
+    FOREIGN KEY (panel_name) REFERENCES panel(panel_name),
     FOREIGN KEY (sprn) REFERENCES student(sprn),
     FOREIGN KEY (tprn) REFERENCES teacher(tprn)
 );
@@ -61,6 +62,7 @@ select * from student;
 select * from Subjects;
 select * from panel;
 select * from timetable;
+select * from attendance;
 
 
 
@@ -178,6 +180,8 @@ VALUES ('C', '2001'),('C', '2002'),('C', '2003'),('C', '2004'),('C', '2005');
 INSERT INTO Subjects (panel_name, course_id)
 VALUES ('D', '2001'),('D', '2002'),('D', '2003'),('D', '2004');
 
+select t.day,t.tprn,s.sprn,s.panel_name from timetable as t join student s on t.panel_name=s.panel_name;
+
 
 INSERT INTO timetable (tprn, day, time, panel_name)
 VALUES
@@ -276,18 +280,29 @@ VALUES
 ('102003', 'Wednesday', '14:00', 'D'),
 ('102003', 'Thursday', '14:00', 'D'),
 ('102003', 'Friday', '14:00', 'D');
-select panel_name from timetable where tprn = 102000 and day='monday';
 
 
 
-
-
-
-
-
-
-
-
-
+DELIMITER $$
+create procedure insert_attend()
+begin 
+declare c_day varchar(10);
+declare c_tprn int;
+declare c_sprn int;
+declare c_pannel varchar(10);
+declare done int default 0;
+declare curr cursor for
+select t.day,t.tprn,s.sprn,s.panel_name from timetable as t join student s on t.panel_name=s.panel_name;
+declare continue handler for not found set done =1;
+open curr;
+repeat
+fetch curr into c_day,  c_tprn,  c_sprn,  c_pannel;
+insert into attendance values(c_sprn,c_tprn,c_day, NULL, c_pannel);
+UNTIL DONE
+END REPEAT;
+CLOSE CURR;
+END $$
+DELIMITER ;
+call insert_attend();
 
 

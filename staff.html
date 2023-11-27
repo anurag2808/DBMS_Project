@@ -40,14 +40,16 @@
             fetch('/timetable')
                 .then(response => response.json())
                 .then(panel => {
+                    const btnContainer = document.getElementById('btn');
+                    document.addEventListener('submit',()=>{
+                        btnContainer.innerHTML = '';
+                    })
                     panel.forEach(element => {
-                        console.log(day);
                         if (element.day == day) {
                             const panel = `<button>${element.panel_name}</button>`;
-                            document.getElementById('btn').insertAdjacentHTML('beforeend', panel);
+                            btnContainer.insertAdjacentHTML('beforeend', panel);
                         }
                     })
-                    window.location.reload();
                 })
         })
         fetch('/name')

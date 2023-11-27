@@ -20,6 +20,14 @@ function fetchDataFromDB(callback) {
     callback(null, results);
   });
 }
+function studentlogin(callback) {
+  pool.query('SELECT sprn,passwords FROM student', (err, results) => {
+    if (err) {
+      return callback(err, null);
+    }
+    callback(null, results);
+  });
+}
 const name = (prn) => {
   return new Promise((resolve, reject) => {
     pool.query(`SELECT fname,lname FROM teacher where tprn=${prn}`, (err, results) => {
@@ -42,4 +50,4 @@ const staff1 = (prn) => {
     });
   });
 };
-module.exports = { fetchDataFromDB,name,staff1};
+module.exports = { fetchDataFromDB,name,staff1,studentlogin};

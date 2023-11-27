@@ -20,11 +20,41 @@ app.get("/loginstudent", (req, res) => {
 });
 app.post("/loginstudent", (req, res) => {
     console.log(req.body);
-    res.sendFile(path.join(__dirname, 'student.html'));
+    let sprn=req.body.PRN;
+    let pass=req.body.passwords;
+    const handleData = (err, data) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            return;
+        }
+        data.forEach((entry, index) => {
+            var c = 0;
+            for (const key in entry) {
+                if (Object.prototype.hasOwnProperty.call(entry, key)) {
+                    if (key == 'passwords') {
+                        if (entry[key] == pass) {
+                            c++;
+                        }
+                    }
+                    else if (key == 'sprn') {
+                        if (entry[key] == sprn) {
+                            c++;
+                        }
+                    }
+
+                }
+                if (c == 2) {
+                    res.sendFile(path.join(__dirname, 'student.html'));
+                }
+            }
+            return c;
+        });
+    }
+    mysqlFunctions.studentlogin(handleData);
 
 });
 app.post("/loginstaff", (req, res) => {
-    tprn = req.body.PRN;
+    let tprn = req.body.PRN;
     let pass = req.body.password;
     const handleData = (err, data) => {
         if (err) {
