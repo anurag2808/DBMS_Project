@@ -276,6 +276,7 @@ VALUES
 ('102003', 'Wednesday', '14:00', 'D'),
 ('102003', 'Thursday', '14:00', 'D'),
 ('102003', 'Friday', '14:00', 'D');
+select panel_name from timetable where tprn = 102000 and day='monday';
 
 
 

@@ -31,9 +31,9 @@ const name = (prn) => {
     });
   });
 };
-const staff1 = (prn,day) => {
+const staff1 = (prn) => {
   return new Promise((resolve, reject) => {
-    pool.query(`SELECT panel_name FROM timetable where tprn=${prn} and day=${day}` , (err, results) => {
+    pool.query(`SELECT panel_name,day FROM timetable where tprn=${prn}` , (err, results) => {
       if (err) {
         reject(err); // Reject the promise if there's an error
       } else {

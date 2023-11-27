@@ -66,7 +66,7 @@ app.get("/name",(req,res)=>{
       });
 })
 app.get("/timetable",(req,res)=>{
-    mysqlFunctions.name(tprn,day)
+    mysqlFunctions.staff1(tprn)
     .then((results) => {
         res.json(results) 
       })

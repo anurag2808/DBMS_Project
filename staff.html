@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1 id="name">
 
@@ -26,33 +28,37 @@
         </form>
     </div>
     <div class="container">
-        <div class="btn">
-            
+        <div id="btn">
+
         </div>
     </div>
     <script>
-        let temp=document.getElementById('day');
-        temp.addEventListener('submit',(e)=>{
+        let temp = document.getElementById('day');
+        temp.addEventListener('submit', (e) => {
             e.preventDefault();
-            day=document.getElementById('weekday').value;
-            console.log(day);
+            day = document.getElementById('weekday').value;
+            fetch('/timetable')
+                .then(response => response.json())
+                .then(panel => {
+                    panel.forEach(element => {
+                        console.log(day);
+                        if (element.day == day) {
+                            const panel = `<button>${element.panel_name}</button>`;
+                            document.getElementById('btn').insertAdjacentHTML('beforeend', panel);
+                        }
+                    })
+                    window.location.reload();
+                })
         })
         fetch('/name')
-        .then(response => response.json())
-        .then(name =>{
-            name.forEach(element => {
-                const name=`<span>welcome! ${element.fname} ${element.lname}</span>`;
-                document.getElementById('name').insertAdjacentHTML('beforeend',name);
-            });
-        })
-        fetch('timetable')
-        .then(response => response.json)
-        .then(panel =>{
-            panel.forEach(element =>{
-                const pannel=`<button>${element.panel_name}</button>`;
-                document.getElementById('btn').insertAdjacentHTML('beforeend',pannel);
+            .then(response => response.json())
+            .then(name => {
+                name.forEach(element => {
+                    const name = `<span>welcome! ${element.fname} ${element.lname}</span>`;
+                    document.getElementById('name').insertAdjacentHTML('beforeend', name);
+                });
             })
-        })
     </script>
 </body>
+
 </html>
