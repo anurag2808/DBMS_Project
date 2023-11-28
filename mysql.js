@@ -72,4 +72,15 @@ const attendence = (prn) => {
     });
   });
 };
-module.exports = { fetchDataFromDB,name,staff1,studentlogin,namestudent,attendence};
+const attendence_mark = (prn1,prn2,st) => {
+  return new Promise((resolve, reject) => {
+    pool.query(`call update_att3(${prn1},${prn2},"${st}")`, (err, results) => {
+      if (err) {
+        reject(err); // Reject the promise if there's an error
+      } else {
+        resolve(results); // Resolve the promise with the results array
+      }
+    });
+  });
+};
+module.exports = { fetchDataFromDB,name,staff1,studentlogin,namestudent,attendence,attendence_mark};

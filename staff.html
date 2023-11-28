@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/style2.css">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
     </h1>
     <div class="day">
         <form id="day">
-            <label for="weekday">Select a weekday:</label>
+            <label for="weekday">Select Day:</label>
             <select name="weekday" id="weekday">
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>
@@ -28,28 +29,64 @@
         </form>
     </div>
     <div class="container" id="container">
-        <div id="btn">
+        <form id="form1">
+            <label for="pannel">Select a panel:</label>
+            <select name="pannel" id="pannel">
 
-        </div>
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div id="attendence">
+        <form id="z" action="/staff" method="post">
+            
+        </form>
     </div>
     <script>
+        let temp1 = document.getElementById('form1')
         let temp = document.getElementById('day');
-        let temp1=document.getElementById('container')
         temp.addEventListener('submit', (e) => {
             e.preventDefault();
-            day = document.getElementById('weekday').value;
+            let day = document.getElementById('weekday').value;
+            const btnContainer = document.getElementById('pannel');
+            temp.addEventListener('submit', () => {
+                btnContainer.innerHTML = '';
+            })
             fetch('/timetable')
                 .then(response => response.json())
                 .then(panel => {
-                    const btnContainer = document.getElementById('btn');
-                    document.addEventListener('submit',()=>{
-                        btnContainer.innerHTML = '';
-                    })
+                    console.log(day);
                     panel.forEach(element => {
                         if (element.day == day) {
-                            const panel = `<button>${element.panel_name}</button>`;
+                            const panel = `<option value="${element.panel_name}">${element.panel_name}</option>`;
                             btnContainer.insertAdjacentHTML('beforeend', panel);
                         }
+                    })
+                    temp1.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        let p_name = document.getElementById('pannel').value
+                        console.log(p_name);
+                        fetch('/att')
+                            .then(response => response.json())
+                            .then(att => {
+                                temp1.addEventListener('submit', () => {
+                                    btnContainer.innerHTML = '';
+                                })
+                                att.forEach(element => {
+                                    if (element.day == day && element.panel_name == p_name) {
+                                        const x = `    <label for="student">${element.sprn}:</label>
+                                                        <select name="student_${element.sprn}">
+                                                        <option value="P">P</option>
+                                                        <option value="A">A</option>
+                                                        </select>
+                                                         <br>`;
+                                        document.getElementById('z').insertAdjacentHTML('beforeend', x);
+                                    }
+                                });
+                                const y=`<input type="submit" value="Submit">`;
+                                document.getElementById('z').insertAdjacentHTML('beforeend', y);
+                            })
                     })
                 })
         })
@@ -57,21 +94,10 @@
             .then(response => response.json())
             .then(name => {
                 name.forEach(element => {
-                    const name = `<span>welcome! ${element.fname} ${element.lname}</span>`;
+                    const name = `<span>Welcome! ${element.fname} ${element.lname}</span>`;
                     document.getElementById('name').insertAdjacentHTML('beforeend', name);
                 });
-            })
-            temp.addEventListener('click', (e) => {
-            e.preventDefault();
-            panel_name=document.getElementById('btn');
-            console.log(panel_name);
-            })
-            day = document.getElementById('weekday').value;
-            fetch('/att')
-                .then(response => response.json())
-                .then(att => {
-                        console.log(att)
-                    })
+            }) 
     </script>
 </body>
 

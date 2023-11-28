@@ -122,6 +122,18 @@ app.get("/att",(req,res)=>{
         console.error('Error:', err);
       });
 })
+app.post("/staff",(req,res)=>{
+    const sprnValues = Object.keys(req.body)
+    .filter(key => key.startsWith('student_'))
+    .map(key => ({ sprn: key.split('_')[1], value: req.body[key] }));
+    console.log(sprnValues);
+    res.send("sent file");  
+    sprnValues.forEach(element=>{
+        const a=element.sprn;
+        const b=element.value;
+        mysqlFunctions.attendence_mark(tprn,a,b);   
+    })
+})
 
 //START THE SERVER
 app.listen(port, () => {
