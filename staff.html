@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/style2.css">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
     </h1>
     <div class="day">
         <form id="day">
-            <label for="weekday">Select a weekday:</label>
+            <label for="weekday">Select Day:</label>
             <select name="weekday" id="weekday">
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>
@@ -29,7 +30,7 @@
     </div>
     <div class="container" id="container">
         <form id="form1">
-            <label for="pannel">Select a paneel:</label>
+            <label for="pannel">Select a panel:</label>
             <select name="pannel" id="pannel">
 
             </select>
@@ -93,7 +94,7 @@
             .then(response => response.json())
             .then(name => {
                 name.forEach(element => {
-                    const name = `<span>welcome! ${element.fname} ${element.lname}</span>`;
+                    const name = `<span>Welcome! ${element.fname} ${element.lname}</span>`;
                     document.getElementById('name').insertAdjacentHTML('beforeend', name);
                 });
             }) 
