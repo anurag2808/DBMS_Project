@@ -305,8 +305,13 @@ END $$
 DELIMITER ;
 call insert_attend();
 delimiter $$
-create procedure update_att(in prn int, in st varchar(3))
+create procedure update_att2(in prn1 int,in prn2 int, in st varchar(3))
 begin
-update attendance set status=st where tprn=prn;
+update attendance set status=st where tprn=prn1 and sprn=prn2;
+end$$
+delimiter ;	
+select * from attendance where tprn=102000 and sprn=103000;
+select * from attendance;
+
 
 

@@ -128,6 +128,11 @@ app.post("/staff",(req,res)=>{
     .map(key => ({ sprn: key.split('_')[1], value: req.body[key] }));
     console.log(sprnValues);
     res.send("sent file");  
+    sprnValues.forEach(element=>{
+        const a=element.sprn;
+        const b=element.value;
+        mysqlFunctions.attendence_mark(tprn,a,b);   
+    })
 })
 
 //START THE SERVER
