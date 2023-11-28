@@ -72,4 +72,15 @@ const attendence = (prn) => {
     });
   });
 };
+const attendence_mark = (prn,st) => {
+  return new Promise((resolve, reject) => {
+    pool.query(`update attendance set status=${st} where tprn=${prn}`, (err, results) => {
+      if (err) {
+        reject(err); // Reject the promise if there's an error
+      } else {
+        resolve(results); // Resolve the promise with the results array
+      }
+    });
+  });
+};
 module.exports = { fetchDataFromDB,name,staff1,studentlogin,namestudent,attendence};

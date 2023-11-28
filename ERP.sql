@@ -304,5 +304,9 @@ CLOSE CURR;
 END $$
 DELIMITER ;
 call insert_attend();
+delimiter $$
+create procedure update_att(in prn int, in st varchar(3))
+begin
+update attendance set status=st where tprn=prn;
 
 

@@ -122,6 +122,13 @@ app.get("/att",(req,res)=>{
         console.error('Error:', err);
       });
 })
+app.post("/staff",(req,res)=>{
+    const sprnValues = Object.keys(req.body)
+    .filter(key => key.startsWith('student_'))
+    .map(key => ({ sprn: key.split('_')[1], value: req.body[key] }));
+    console.log(sprnValues);
+    res.send("sent file");  
+})
 
 //START THE SERVER
 app.listen(port, () => {
