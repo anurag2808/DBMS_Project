@@ -27,13 +27,14 @@
             <input type="submit" value="Submit">
         </form>
     </div>
-    <div class="container">
+    <div class="container" id="container">
         <div id="btn">
 
         </div>
     </div>
     <script>
         let temp = document.getElementById('day');
+        let temp1=document.getElementById('container')
         temp.addEventListener('submit', (e) => {
             e.preventDefault();
             day = document.getElementById('weekday').value;
@@ -60,6 +61,17 @@
                     document.getElementById('name').insertAdjacentHTML('beforeend', name);
                 });
             })
+            temp.addEventListener('click', (e) => {
+            e.preventDefault();
+            panel_name=document.getElementById('btn');
+            console.log(panel_name);
+            })
+            day = document.getElementById('weekday').value;
+            fetch('/att')
+                .then(response => response.json())
+                .then(att => {
+                        console.log(att)
+                    })
     </script>
 </body>
 

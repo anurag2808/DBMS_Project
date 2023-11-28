@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 const mysqlFunctions = require('./mysql');
 let tprn;
-let day="monday";
+let sprn;
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -20,8 +20,8 @@ app.get("/loginstudent", (req, res) => {
 });
 app.post("/loginstudent", (req, res) => {
     console.log(req.body);
-    let sprn=req.body.PRN;
-    let pass=req.body.passwords;
+    sprn=req.body.PRN;
+    let pass=req.body.password;
     const handleData = (err, data) => {
         if (err) {
             console.error('Error fetching data:', err);
@@ -54,7 +54,7 @@ app.post("/loginstudent", (req, res) => {
 
 });
 app.post("/loginstaff", (req, res) => {
-    let tprn = req.body.PRN;
+    tprn = req.body.PRN;
     let pass = req.body.password;
     const handleData = (err, data) => {
         if (err) {
@@ -95,8 +95,26 @@ app.get("/name",(req,res)=>{
         console.error('Error:', err);
       });
 })
+app.get("/namestudent",(req,res)=>{
+    mysqlFunctions.namestudent(sprn)
+    .then((results) => {
+        res.json(results) 
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+})
 app.get("/timetable",(req,res)=>{
     mysqlFunctions.staff1(tprn)
+    .then((results) => {
+        res.json(results) 
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+})
+app.get("/att",(req,res)=>{
+    mysqlFunctions.attendence(tprn)
     .then((results) => {
         res.json(results) 
       })

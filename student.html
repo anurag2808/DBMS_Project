@@ -6,6 +6,18 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>this is student page</h1>
+    <h1 id="name">
+
+    </h1>
+    <script>
+            fetch('/namestudent')
+            .then(response => response.json())
+            .then(name => {
+                name.forEach(element => {
+                    const name = `<span>welcome! ${element.fname} ${element.lname}</span>`;
+                    document.getElementById('name').insertAdjacentHTML('beforeend', name);
+                });
+            })
+    </script>
 </body>
 </html>
